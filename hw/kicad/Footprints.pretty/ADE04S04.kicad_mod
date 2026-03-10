@@ -1,0 +1,389 @@
+(footprint "ADE04S04"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(descr "ADE04S04-4")
+	(tags "Switch")
+	(property "Reference" "S1"
+		(at -5.33 8.19 180)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "8e6a088d-613c-4acd-98ea-176d05264598")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.254)
+			)
+		)
+	)
+	(property "Value" "ADE04S04"
+		(at 0 0 180)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "b0c16b60-5ab3-4224-b1ff-3d78e01e0056")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.254)
+			)
+		)
+	)
+	(property "Footprint" "SamacSys_Parts:ADE04S04"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "2408375e-f270-4d38-8008-f6fb47e0ca48")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" "https://www.te.com/commerce/DocumentDelivery/DDEController?Action=showdoc&DocId=Customer+Drawing%7F1825058%7FS4%7Fpdf%7FEnglish%7FENG_CD_1825058_S4.pdf%7F1825058-7&fbclid=IwZXh0bgNhZW0CMTEAAR3HXWvtobYYe5doEob-Ew7k9exoD7T85HuoG6XL-36HyPPpAp87UcrghTs_aem_qt"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "0f6e0ef4-44cf-47e0-8bb1-d7efcf0fd2a0")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "Gold Flash, Black, Polyphenylene Sulfide (PPS), 4 Switch, -30  85 C, DIP, Extended / Slide Actuator Style, Alcoswitch DIP, DIP & SIP Switches"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "a310f0cd-c39a-456a-893e-2dd46e633c3b")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Height" "5.8"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "e6722b3f-495d-41af-9003-36e800479cd1")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Mouser Part Number" "506-ADE04S04"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "28a83042-40c7-4649-96d8-b77eb1a486eb")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/TE-Connectivity-PB/ADE04S04?qs=W6FIH8d5%2F%2F3GqIA4TiC09w%3D%3D"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "f004c01c-e3be-40e9-985b-9f6a8a7657c3")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer_Name" "TE Connectivity"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "f8128f69-7f56-4f91-8964-0da0e55ea245")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer_Part_Number" "ADE04S04"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "3b16e2b9-e392-4df6-9aac-1ee0dc68c299")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -5.7 -3.81)
+		(end -5.7 -3.81)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "995ed59e-6a98-43ec-b61b-cd62a3f0f378")
+	)
+	(fp_line
+		(start -5.6 -3.81)
+		(end -5.6 -3.81)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "731b3b25-8cad-4861-8061-1425d6177d96")
+	)
+	(fp_line
+		(start -3.75 -6.07)
+		(end 3.75 -6.07)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "40ee18bf-17e4-4655-b8ee-49bfa391e4e2")
+	)
+	(fp_line
+		(start -3.75 -5)
+		(end -3.75 -6.07)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "24a1fdb5-cf64-4c58-8c08-40c32526d119")
+	)
+	(fp_line
+		(start -3.75 5)
+		(end -3.75 6.07)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "d7e0541a-1301-4774-ad50-68419e9c4e16")
+	)
+	(fp_line
+		(start -3.75 6.07)
+		(end 3.75 6.07)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "8ebaa531-9ffb-4d4b-92a2-089035dc211f")
+	)
+	(fp_line
+		(start 3.75 -6.07)
+		(end 3.75 -5)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "58ecfb8f-47e5-44ed-b21c-e3e4b1473b2c")
+	)
+	(fp_line
+		(start 3.75 6.07)
+		(end 3.75 5)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "45074fdc-82fa-41ac-8eaa-2d743c786b20")
+	)
+	(fp_arc
+		(start -5.7 -3.81)
+		(mid -5.65 -3.86)
+		(end -5.6 -3.81)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "4cb78960-e6a8-470b-b42c-1bf3965916a2")
+	)
+	(fp_arc
+		(start -5.6 -3.81)
+		(mid -5.65 -3.76)
+		(end -5.7 -3.81)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "91436b1b-35dd-42d2-a1ec-3439e3f10abc")
+	)
+	(fp_line
+		(start -6.21 -7.07)
+		(end 6.21 -7.07)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "c4c7247b-0aa0-49dd-8989-6c1f03e24a75")
+	)
+	(fp_line
+		(start -6.21 7.07)
+		(end -6.21 -7.07)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "d5db3417-9d96-47c0-bdb2-f89056e23da8")
+	)
+	(fp_line
+		(start 6.21 -7.07)
+		(end 6.21 7.07)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "bcfb02dd-830f-4e8b-a56b-8e191a66f49c")
+	)
+	(fp_line
+		(start 6.21 7.07)
+		(end -6.21 7.07)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "5c6f5ab3-adc4-44bf-9630-18d0a114ee00")
+	)
+	(fp_line
+		(start -3.75 -6.07)
+		(end 3.75 -6.07)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "4cd65f7d-b719-4f35-aa5b-2c5f528a4ce3")
+	)
+	(fp_line
+		(start -3.75 6.07)
+		(end -3.75 -6.07)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "a3a4699c-63df-4d57-96d4-44bb16ec5cd5")
+	)
+	(fp_line
+		(start 3.75 -6.07)
+		(end 3.75 6.07)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "aac95948-5577-4831-b526-daa3ebd3a62b")
+	)
+	(fp_line
+		(start 3.75 6.07)
+		(end -3.75 6.07)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "b9bef919-a207-48c8-a2bc-f8cd3c414771")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 180)
+		(layer "F.Fab")
+		(uuid "883368ed-78e5-49a7-9fd4-61f5e9d44eda")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.254)
+			)
+		)
+	)
+	(pad "A1" smd rect
+		(at -4.13 -3.81 90)
+		(size 1.52 2.16)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "60bc843b-f03a-402a-9e42-5ba8f937a321")
+	)
+	(pad "A2" smd rect
+		(at -4.13 -1.27 90)
+		(size 1.52 2.16)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "8a75ed43-b071-4a9b-a765-eb623ccbc2f2")
+	)
+	(pad "A3" smd rect
+		(at -4.13 1.27 90)
+		(size 1.52 2.16)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "bf12b6e9-c569-4bb6-8901-78b72332e381")
+	)
+	(pad "A4" smd rect
+		(at -4.13 3.81 90)
+		(size 1.52 2.16)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "af00432e-c0ce-446a-aec7-eb2a3355bf12")
+	)
+	(pad "B1" smd rect
+		(at 4.13 -3.81 90)
+		(size 1.52 2.16)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "83bf8009-69f1-4efa-beea-b3228ce8c43d")
+	)
+	(pad "B2" smd rect
+		(at 4.13 -1.27 90)
+		(size 1.52 2.16)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "9bc905ae-63e5-4515-af8d-a2f9b64954e3")
+	)
+	(pad "B3" smd rect
+		(at 4.13 1.27 90)
+		(size 1.52 2.16)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "6a76c377-0447-4b95-89c1-0aa0b8ab5b3a")
+	)
+	(pad "B4" smd rect
+		(at 4.13 3.81 90)
+		(size 1.52 2.16)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "438fe8cd-3606-4556-a860-23d685c9c245")
+	)
+	(model "C:\\Users\\Mayank\\Documents\\SamacSys_lib\\SamacSys_Parts.3dshapes\\ADE04S04.stp"
+		(offset
+			(xyz 0 0 0.999999985)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 -90)
+		)
+	)
+)

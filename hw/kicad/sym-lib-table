@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "TestBenchLib")(type "KiCad")(uri "${KIPRJMOD}/TestBenchLib.kicad_sym")(options "")(descr ""))
+)
