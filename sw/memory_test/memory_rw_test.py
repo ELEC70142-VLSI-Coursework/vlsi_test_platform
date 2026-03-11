@@ -18,15 +18,11 @@ import time
 import math
 import random
 import sys
+from pathlib import Path
 from typing import List
 
-try:
-    from ProgrammerAPI import JTAGProg, reconstruct_data_from_response, ADDR_W
-except Exception:
-    # Allow running the script directly from inside the ProgrammerAPI folder
-    # (e.g. when invoked via a UNC/WSL path from Windows). In that case
-    # import the local modules directly.
-    from JTAGProg import JTAGProg, reconstruct_data_from_response, ADDR_W
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from JTAGProg import JTAGProg, reconstruct_data_from_response, ADDR_W
 
 
 def generate_chunk(seed: int, count: int) -> List[int]:
@@ -62,6 +58,9 @@ def main():
     args = parse_args()
 
     total_words = (args.total_bytes + 3) // 4
+    # If total bytes is not multiple of 4 give a warning and round up to next word
+    if (args.total_bytes % 4) != 0:
+        print(f"Warning: total bytes {args.total_bytes} is not a multiple of 4, rounding up to {total_words*4} bytes ({total_words} words)")
     max_mem_words = 1 << ADDR_W
 
     if args.chunk_words <= 0:
@@ -152,8 +151,7 @@ def main():
                         data_val, addr_resp = reconstruct_data_from_response(resp)
                         if addr_resp != addr or data_val != expected:
                             err_chunk += 1
-                            if args.verbose:
-                                print(f"\nChunk {chunk_id+1}, addr {addr:#x}: verification error! expected {expected:#010x}, got {data_val:#010x} (addr resp {addr_resp:#x})")
+                            print(f"\nChunk {chunk_id+1}, addr {addr:#x}: verification error! expected {expected:#010x}, got {data_val:#010x} (addr resp {addr_resp:#x})")
                     if args.per_read_delay > 0:
                         time.sleep(args.per_read_delay)
                 # end of chunk verify

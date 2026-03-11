@@ -14,6 +14,7 @@ This is intended to be used from the host side to drive the DUT's UART-JTAG
 bridge.
 """
 
+import sys
 import time
 import serial
 import argparse
@@ -146,7 +147,7 @@ class JTAGDriver:
 
 
 class JTAGProg:
-    def __init__(self, port: str, baud: int = 115200, timeout: float = 1.0, verbose: bool = True):
+    def __init__(self, port: str, baud: int = 115200, timeout: float = 1.0, verbose: bool = False):
         self.port = port
         self.baud = baud
         self.timeout = timeout
@@ -304,36 +305,6 @@ class JTAGProg:
         return bytes(resp_buf)
 
 
-    # def read_mem(self, addr: int, expect_response_bytes: int = 6, resp_timeout: float = 1.0) -> bytes:
-    #     # 1. Clear any junk left from previous failed runs
-    #     self.ser.reset_input_buffer()
-        
-    #     # 2. Send Command
-    #     drv = JTAGDriver()
-    #     drv.build_read_mem(IR_READ, 4, addr, ADDR_W)
-    #     self.send_jtag_driver(drv)
-
-    #     # 3. Enter Shift State
-    #     drv_pre = JTAGDriver()
-    #     drv_pre.shift_out_data(DR_W)
-    #     self.send_bytes(bytes(drv_pre.get_stream()))
-
-    #     # 4. Batch request: Send all dummy bytes at once
-    #     # If your protocol requires two 0x00 per 1 byte of response:
-    #     dummy_payload = bytes([0x00] * (expect_response_bytes * 2))
-    #     self.send_bytes(dummy_payload)
-
-    #     # 5. Block until all data is received
-    #     # This is much more robust than a loop
-    #     resp_buf = self.ser.read(expect_response_bytes)
-
-    #     # 6. Exit Shift State
-    #     drv_post = JTAGDriver()
-    #     drv_post.shift_out_data_exit()
-    #     self.send_bytes(bytes(drv_post.get_stream()))
-
-    #     return resp_buf
-
 def load_32bit_hex_file(path: str) -> List[int]:
     out: List[int] = []
     with open(path, "r") as f:
@@ -359,6 +330,14 @@ def generate_dummy_data(count: int, seed: int) -> List[int]:
     r = random.Random(seed)
     return [r.getrandbits(32) for _ in range(count)]
 
+def human_bytes(num_bytes: int) -> str:
+    """Convert bytes to human-readable format."""
+    for unit in ['B', 'KB', 'MB', 'GB']:
+        if num_bytes < 1024.0:
+            return f"{num_bytes:.2f} {unit}"
+        num_bytes /= 1024.0
+    return f"{num_bytes:.2f} TB"
+
 def reconstruct_data_from_response(resp: bytes) -> int:
     # Reconstruct data (bytes 0..3 are data LSB..MSB)
     # return value and address separately
@@ -373,19 +352,26 @@ def reconstruct_data_from_response(resp: bytes) -> int:
 def main():
     parser = argparse.ArgumentParser(description="Host JTAG UART programmer")
     parser.add_argument("port", help="Serial port to open (e.g. /dev/ttyUSB0)")
-    parser.add_argument("datafile", help="Text file containing 32-bit hex words, one per line")
+    parser.add_argument("datafile", nargs='?', help="Text file containing 32-bit hex words, one per line (required unless --test-mode is used)")
     parser.add_argument("--baud", type=int, default=115200, help="Baud rate for the serial port")
     parser.add_argument("--start-addr", type=int, default=0)
-    parser.add_argument("--verify-count", type=int, default=8, help="How many words to read back and print")
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose JTAG driver prints")
+    parser.add_argument("--test-mode", action="store_true", help="Run in test mode with generated dummy data instead of loading from file")
+    parser.add_argument("--word-count", type=int, default=128, help="Number of words to generate in test mode (default 128)")
     args = parser.parse_args()
 
-    # words = load_32bit_hex_file(args.datafile)
+    # Validate that datafile is provided if not in test mode
+    if not args.test_mode and not args.datafile:
+        parser.error("datafile is required unless --test-mode is used")
 
     # For testing, generate some dummy data instead of loading from file
-    words = generate_dummy_data(32, seed=45)
+    if args.test_mode:
+        words = generate_dummy_data(args.word_count, seed=445)
+    else:
+        words = load_32bit_hex_file(args.datafile)
 
 
-    p = JTAGProg(args.port, baud=args.baud, verbose=False)
+    p = JTAGProg(args.port, baud=args.baud, verbose=args.verbose)
     try:
         print("Resetting JTAG TAP...")
         p.reset_jtag()
@@ -393,19 +379,47 @@ def main():
         print("Entering programming mode...")
         p.prog_mode_on()
 
+
+        # progress counters
+        written_so_far = 0
+        verified_so_far = 0
+        # throttle updates to a reasonable number (approx 200 updates)
+        write_update_interval = max(1, len(words) // 200)
+        read_update_interval = max(1, len(words) // 200)
+
+        def _print_progress(stage: str, current: int, total: int):
+            pct = (current * 100.0 / total) if total else 100.0
+            # carriage-return update
+            sys.stdout.write(f"\r{stage}: {pct:6.2f}% ({current}/{total})")
+            sys.stdout.flush()
+
         # write words sequentially starting at start-addr
+        t0 = time.time()
         for i, w in enumerate(words):
             addr = args.start_addr + i
-            print(f"Writing addr=0x{addr:02X} data=0x{w:08X}")
+            if getattr(p, "verbose", True):
+                print(f"Writing addr=0x{addr:02X} data=0x{w:08X}")
             p.write_mem(addr, w)
+            written_so_far += 1
+            # throttled progress update
+            if written_so_far % write_update_interval == 0 or (i + 1) == len(words):
+                _print_progress("Writing", written_so_far, len(words))
             time.sleep(0.005)
 
-        # Read and veryfy all the written words
+        t1 = time.time()
+        write_time = t1 - t0
+
+        sys.stdout.write("\n\n")
+        # Read and verify all the written words
         print("Verifying all entries...")
         errors = 0
         for i in range(len(words)):
             addr = args.start_addr + i
             resp = p.read_mem(addr, expect_response_bytes=6, resp_timeout=0.5)
+            verified_so_far += 1
+            # throttled progress update
+            if (verified_so_far % read_update_interval) == 0 or verified_so_far == len(words):
+                _print_progress("Verifying", verified_so_far, len(words))
             if len(resp) < 6:
                 print(f"Addr 0x{addr:02X}: no response (len={len(resp)})")
                 continue
@@ -415,11 +429,35 @@ def main():
                 print(f"Addr 0x{addr:02X}: MISMATCH! Expected 0x{expected_val:08X}, got 0x{data_val:08X}")
                 errors += 1
             else:
-                print(f"Addr 0x{addr:02X}: OK Data: 0x{data_val:08X}")
+                if getattr(p, "verbose", True):
+                    print(f"Addr 0x{addr:02X}: OK Data: 0x{data_val:08X}")
+
+        read_time = time.time() - t1
+
+        sys.stdout.write("\n\n")
 
         print(f"Verification complete. Errors found: {errors}")
         print("Exiting programming mode...")
         p.prog_mode_off()
+
+
+        print("\nSummary:")
+        print(f"  Total words: {len(words)}")
+        print(f"  Total bytes: {len(words)*4} ({human_bytes(len(words)*4)})")
+        print(f"  Total write time: {write_time:.3f}s")
+        if write_time > 0:
+            print(f"  Write throughput: {(len(words)*4)/1024/write_time:.2f} KB/s")
+        print(f"  Total read time: {read_time:.3f}s")
+        if read_time > 0:
+            print(f"  Read throughput: {(len(words)*4)/1024/read_time:.2f} KB/s")
+        print(f"  Total errors: {errors}")
+
+        if errors:
+            print("One or more verification errors detected.")
+            sys.exit(2)
+        else:
+            print("All data verified successfully.")
+
     finally:
         p.close()
 
