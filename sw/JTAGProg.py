@@ -1,17 +1,23 @@
 """
-JTAGProg.py
+JTAGProg.py — Host-side JTAG/UART programmer.
 
-Python port of the JTAG driver and a small UART interface using pyserial.
+Drives the JTAG Engine firmware module via a USB-to-UART bridge (e.g. FTDI or
+CP210x). Each byte sent over UART carries four JTAG clock cycles: the high
+nibble encodes four TMS bits and the low nibble encodes four TDI bits.
 
-Features:
-- JTAGDriver: builds TMS/TDI bitstreams and packs them into bytes (4-bit nibbles
-  per the C++ testbench packing: high nibble = TMS(3..0), low nibble = TDI(3..0)).
-- JTAGProg: opens a serial port and sends/receives bytes to/from the UART bridge
-  (works with FTDI or CP210x devices exposed as serial ports via drivers).
-- helper to load 32-bit hex words from a text file.
+Classes:
+    JTAGDriver  — Builds TMS/TDI bitstreams, packs them into the nibble format
+                  described above, and provides helpers for navigating the JTAG
+                  FSM and shifting instruction/data registers.
+    JTAGProg    — Opens a serial port and exchanges the packed byte stream with
+                  the UART bridge. Read data is recovered by clocking dummy
+                  bytes into the TAP and capturing the TDO bits returned by the
+                  target.
 
-This is intended to be used from the host side to drive the DUT's UART-JTAG
-bridge.
+Helper functions:
+    load_32bit_hex_file        — Loads 32-bit hex words from a plain-text file.
+    reconstruct_data_from_response — Parses a raw read response into a
+                                     (data, address) tuple.
 """
 
 import sys
@@ -366,7 +372,7 @@ def main():
 
     # For testing, generate some dummy data instead of loading from file
     if args.test_mode:
-        words = generate_dummy_data(args.word_count, seed=445)
+        words = generate_dummy_data(args.word_count, seed=42)
     else:
         words = load_32bit_hex_file(args.datafile)
 
