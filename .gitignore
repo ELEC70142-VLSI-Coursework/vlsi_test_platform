@@ -2,3 +2,4 @@
 hw/kicad/~TestBench.kicad_sch.lck
 sw/memory_test
 sw/__pycache__
+gw/test/src
