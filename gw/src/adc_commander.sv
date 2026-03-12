@@ -25,16 +25,23 @@ module adc_commander #(
     localparam NUM_CMDS = 6;
     localparam ADC_ADDR = 7'b1001000; // ADC I2C address (0x48)
 
+    // DAC values to be sent to the ADC (12-bit values)
+    // Reference voltage is 1.2v. 
+    // Set the values in a 12 bit format with the maximum value of 4095 corresponding to 1.2v
+    localparam DAC1_VALUE = 12'd2048; 
+    localparam DAC2_VALUE = 12'd1024; 
+
+
     // Command memory array [address, data]
     logic [7:0] cmd_mem [0:NUM_CMDS-1];
     
     initial begin
-        cmd_mem[0] = 8'b00000111;  // Write Channel H
-        cmd_mem[1] = 8'b10010101;  // MSB of data
-        cmd_mem[2] = 8'b01010000;  // LSB of data
-        cmd_mem[3] = 8'b00000101;  // Write Channel F
-        cmd_mem[4] = 8'b00100000;  // MSB of data
-        cmd_mem[5] = 8'b00000000;  // LSB of data
+        cmd_mem[0] = 8'b00000111;               // Write Channel H
+        cmd_mem[1] = DAC1_VALUE[11:4];          // MSB of data
+        cmd_mem[2] = {DAC1_VALUE[3:0],4'b0000}; // LSB of data
+        cmd_mem[3] = 8'b00000101;               // Write Channel F
+        cmd_mem[4] = DAC2_VALUE[11:4];          // MSB of data
+        cmd_mem[5] = {DAC2_VALUE[3:0],4'b0000}; // LSB of data
     end
 
     typedef enum logic [2:0] {
