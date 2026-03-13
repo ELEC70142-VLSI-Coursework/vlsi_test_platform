@@ -372,7 +372,7 @@ def main():
 
     # For testing, generate some dummy data instead of loading from file
     if args.test_mode:
-        words = generate_dummy_data(args.word_count, seed=90)
+        words = generate_dummy_data(args.word_count, seed=42)
     else:
         words = load_32bit_hex_file(args.datafile)
 

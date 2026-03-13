@@ -13,22 +13,13 @@ module DE10Top (
     output logic tdi,
     input logic tdo,
 
-
-	output logic l_tck,
-	output logic l_tms,
-	output logic l_tdi,
-	output logic l_tdo,
+    // output logic led, // For debugging
 
 	 // I2C bus
     inout  wire  scl,
-    inout  wire  sda,
-
-    output logic led
+    inout  wire  sda
 
 );
-
-    assign {l_tck, l_tms, l_tdi} = {tck, tms, tdi};
-    assign l_tdo = tdo;
 
     localparam CLK_FREQ = 10_000_000; // 10 MHz
 
@@ -75,19 +66,22 @@ module DE10Top (
     );
 
     /////////////////////////////////// LED signals (for debugging)
-    logic [$clog2(CLK_FREQ/2)-1:0] counter;
+    ////     Quartus PLL IP generator might not work properly. 
+    ////     Blinking led used to verify that the clock frequency is accurate
 
-    always_ff @(posedge clk) begin
-        if (!rst_n) begin
-            counter <= 0;
-            led <= 0;
-        end else begin
-            counter <= counter + 1;
-            if(counter == CLK_FREQ/2 - 1) begin
-                counter <= 0;
-                led <= ~led; // Toggle LED every 0.5 seconds
-            end
-        end
-    end
+    // logic [$clog2(CLK_FREQ/2)-1:0] counter;
+
+    // always_ff @(posedge clk) begin
+    //     if (!rst_n) begin
+    //         counter <= 0;
+    //         led <= 0;
+    //     end else begin
+    //         counter <= counter + 1;
+    //         if(counter == CLK_FREQ/2 - 1) begin
+    //             counter <= 0;
+    //             led <= ~led; // Toggle LED every 0.5 seconds
+    //         end
+    //     end
+    // end
 
 endmodule
