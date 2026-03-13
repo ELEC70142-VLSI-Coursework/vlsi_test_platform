@@ -372,7 +372,7 @@ def main():
 
     # For testing, generate some dummy data instead of loading from file
     if args.test_mode:
-        words = generate_dummy_data(args.word_count, seed=42)
+        words = generate_dummy_data(args.word_count, seed=90)
     else:
         words = load_32bit_hex_file(args.datafile)
 
@@ -428,6 +428,7 @@ def main():
                 _print_progress("Verifying", verified_so_far, len(words))
             if len(resp) < 6:
                 print(f"Addr 0x{addr:02X}: no response (len={len(resp)})")
+                errors += 1
                 continue
             data_val, addr_resp = reconstruct_data_from_response(resp)
             expected_val = words[i]

@@ -18,8 +18,8 @@ module jtag_uart_bridge #(
     input  logic TDO
 );
 
-    localparam TX_FIFO_DEPTH = 64;
-    localparam RX_FIFO_DEPTH = 64;
+    localparam TX_FIFO_DEPTH = 256;
+    localparam RX_FIFO_DEPTH = 256;
 
     // =========================================================
     // UART RX signals

@@ -44,6 +44,9 @@ module jtag_engine (
 
     state_t state;
 
+    logic [15:0] shift_counter;
+
+
     // ---------------------------------------------------------
     // Sequential logic
     // ---------------------------------------------------------
@@ -60,6 +63,8 @@ module jtag_engine (
             bit_idx      <= 2'd0;
             tdo_nibble   <= 4'd0;
             nibble_half  <= 1'b0;
+
+            shift_counter <= 16'd0;
         end else begin
             rx_rd_en <= 1'b0;
             tx_wr_en <= 1'b0;
@@ -84,21 +89,28 @@ module jtag_engine (
 
                 // ---------------------------------------------
                 SHIFT: begin
-                    // Drive JTAG
-                    TMS <= tms_shift[bit_idx];
-                    TDI <= tdi_shift[bit_idx];
+                    shift_counter <= shift_counter + 1'b1;
 
-                    // Toggle TCK
-                    TCK <= ~TCK;
+                    if(shift_counter == 16'd100) begin
 
-                    // Sample TDO on rising edge
-                    if (TCK == 1'b0) begin
-                        tdo_nibble[bit_idx] <= TDO;
-                        bit_idx <= bit_idx + 1'b1;
+                        // Drive JTAG
+                        TMS <= tms_shift[bit_idx];
+                        TDI <= tdi_shift[bit_idx];
 
-                        if (bit_idx == 2'd3) begin
-                            state <= COMMIT;
+                        // Toggle TCK
+                        TCK <= ~TCK;
+
+                        // Sample TDO on rising edge
+                        if (TCK == 1'b0) begin
+                            tdo_nibble[bit_idx] <= TDO;
+                            bit_idx <= bit_idx + 1'b1;
+
+                            if (bit_idx == 2'd3) begin
+                                state <= COMMIT;
+                            end
                         end
+
+                        shift_counter <= 16'd0;
                     end
                 end
 

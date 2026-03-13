@@ -21,7 +21,10 @@ module DE10Top (
 
 	 // I2C bus
     inout  wire  scl,
-    inout  wire  sda
+    inout  wire  sda,
+
+    output logic led
+
 );
 
     assign {l_tck, l_tms, l_tdi} = {tck, tms, tdi};
@@ -71,6 +74,20 @@ module DE10Top (
         .TDO      (tdo)
     );
 
+    /////////////////////////////////// LED signals (for debugging)
+    logic [$clog2(CLK_FREQ/2)-1:0] counter;
 
+    always_ff @(posedge clk) begin
+        if (!rst_n) begin
+            counter <= 0;
+            led <= 0;
+        end else begin
+            counter <= counter + 1;
+            if(counter == CLK_FREQ/2 - 1) begin
+                counter <= 0;
+                led <= ~led; // Toggle LED every 0.5 seconds
+            end
+        end
+    end
 
 endmodule
