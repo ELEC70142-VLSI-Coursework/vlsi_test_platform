@@ -15,6 +15,11 @@ The testboard is an integrated solution for the **VLSI SoC Project** IC bring-up
 - Connector for the DE10-Lite FPGA
 
 
+<div align="center">
+    <img src="../docs/Board.PNG" style="width:700px;">
+</div>
+
+
 
 ## Assembly Guidelines
 
