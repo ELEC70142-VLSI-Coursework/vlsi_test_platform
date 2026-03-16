@@ -104,7 +104,4 @@ The PCB includes:
 
 - Altera DE10-Lite Board: [User Manual](https://www.intel.com/content/www/us/en/programmable/documentation/boards/de10_lite_user_manual.pdf)
 - CP2102N USB-UART IC: [Datasheet](https://www.silabs.com/documents/public/data-sheets/cp2102n-datasheet.pdf)
-
-## License and Attribution
-
-This platform was developed for the VLSI SoC Project at Imperial College London.
+- DAC7578 DAC IC: [Datasheet](https://www.ti.com/lit/ds/symlink/dac7578.pdf?ts=1773684272389&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FDAC7578)

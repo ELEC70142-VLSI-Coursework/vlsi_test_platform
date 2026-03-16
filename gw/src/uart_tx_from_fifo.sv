@@ -1,8 +1,3 @@
-// =============================================================
-// uart_tx_from_fifo.sv
-// Drains a reply FIFO and feeds uart_tx using ready/valid
-// =============================================================
-
 `timescale 1ns/1ps
 
 module uart_tx_from_fifo (

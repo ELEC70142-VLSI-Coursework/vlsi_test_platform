@@ -1,8 +1,3 @@
-// =============================================================
-// Generic synchronous FIFO with free-space counter
-// Parametrizable width and depth
-// =============================================================
-
 `timescale 1ns/1ps
 
 

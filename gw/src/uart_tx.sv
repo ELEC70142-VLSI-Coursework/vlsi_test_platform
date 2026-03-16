@@ -1,8 +1,3 @@
-// =============================================================
-// uart_tx.sv
-// UART transmitter: 8 data bits, 1 start bit, 1 stop bit
-// =============================================================
-
 `timescale 1ns/1ps
 
 module uart_tx #(

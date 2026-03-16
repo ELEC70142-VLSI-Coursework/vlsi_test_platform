@@ -1,9 +1,3 @@
-
-//
-// i2c_master.sv
-//
-// A simple I2C master module for FPGA projects.
-//
 `timescale 1ns/1ps
 
 

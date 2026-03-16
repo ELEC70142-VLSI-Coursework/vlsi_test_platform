@@ -1,10 +1,3 @@
-
-//
-// adc_commander.sv
-//
-// Module to send predefined commands to an ADC using I2C.
-//
-
 `timescale 1ns/1ps
 
 module adc_commander #(
