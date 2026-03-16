@@ -85,6 +85,8 @@ set_location_assignment PIN_Y5 -to clk_out
 
 All pin IO Standard must be configured on `3.3-V LVTTL`.
 
+Mapping of pins between FPGA and IC can be found in the board [schematic](../hw/schematic.pdf)
+
 ## Testing the JTAG Interface
 
 To test the JTAG functionality with a simulated IC memory model:
